@@ -48,4 +48,17 @@ function updateTable() {
     document.getElementById("total").innerText = grandTotal.toFixed(2);
 
 ::contentReference[oaicite:0]{index=0}
+
+    document.getElementById("generateInvoice").addEventListener("click", function () {
+    let customerName = document.getElementById("customerName").value;
+    let customerPhone = document.getElementById("customerPhone").value;
+    let vehicleReg = document.getElementById("vehicleReg").value;
+
+    document.getElementById("customerDetailsDisplay").innerHTML = `
+        <strong>Name:</strong> ${customerName}<br>
+        <strong>Phone:</strong> ${customerPhone}<br>
+        <strong>Vehicle Reg:</strong> ${vehicleReg}<br>
+    `;
+});
+
  
