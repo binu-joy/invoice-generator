@@ -5,43 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice Generator - PLANET GEARS LTD</title>
     <link rel="stylesheet" href="style.css">
+    <!-- jsPDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>PLANET GEARS LTD</h1>
-        <p><strong>Account No:</strong> 93401068 | <strong>Sort Code:</strong> 04-00-03</p>
-        <p><strong>IBAN:</strong> GB58 MONZ 0400 0393 4010 68</p>
-        
-        <h3>Customer Details</h3>
-        <input type="text" id="customerName" placeholder="Customer Name">
-        <input type="text" id="customerPhone" placeholder="Customer Phone">
-        <input type="text" id="vehicleReg" placeholder="Vehicle Registration">
+        <header>
+            <div class="logo">
+                <!-- Placeholder for Company Logo -->
+                <img src="logo-placeholder.png" alt="Company Logo" width="100">
+            </div>
+            <div class="company-details">
+                <h1>PLANET GEARS LTD</h1>
+                <p><strong>Account No:</strong> 93401068 | <strong>Sort Code:</strong> 04-00-03</p>
+                <p><strong>IBAN:</strong> GB58 MONZ 0400 0393 4010 68</p>
+            </div>
+        </header>
 
-        <h3>Item Details</h3>
-        <input type="text" id="item" placeholder="Item Name">
-        <input type="number" id="quantity" placeholder="Quantity">
-        <input type="number" id="price" placeholder="Unit Price">
-        <button onclick="addItem()">Add Item</button>
+        <section class="customer-details">
+            <h3>Customer Details</h3>
+            <input type="text" id="customerName" placeholder="Customer Name">
+            <input type="text" id="customerPhone" placeholder="Customer Phone">
+            <input type="text" id="vehicleReg" placeholder="Vehicle Registration">
+        </section>
 
-        <h3>Invoice</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                    <th>Unit Price (£)</th>
-                    <th>Total (£)</th>
-                    <th>Remove</th>
-                </tr>
-            </thead>
-            <tbody id="invoiceTable"></tbody>
-        </table>
+        <section class="item-details">
+            <h3>Item Details</h3>
+            <input type="text" id="item" placeholder="Item Name">
+            <input type="number" id="quantity" placeholder="Quantity">
+            <input type="number" id="price" placeholder="Unit Price (£)">
+            <button onclick="addItem()">Add Item</button>
+        </section>
 
-        <p><strong>Subtotal: </strong>£<span id="subtotal">0.00</span></p>
-        <p><strong>Tax (5%): </strong>£<span id="tax">0.00</span></p>
-        <p><strong>Grand Total: </strong>£<span id="total">0.00</span></p>
-        
-        <button onclick="generatePDF()">Generate Invoice (PDF)</button>
+        <section class="invoice">
+            <h3>Invoice</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Unit Price (£)</th>
+                        <th>Total (£)</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceTable"></tbody>
+            </table>
+
+            <div class="totals">
+                <p><strong>Subtotal:</strong> £<span id="subtotal">0.00</span></p>
+                <p><strong>Tax (5%):</strong> £<span id="tax">0.00</span></p>
+                <p><strong>Grand Total:</strong> £<span id="total">0.00</span></p>
+            </div>
+
+            <button onclick="generatePDF()">Generate Invoice (PDF)</button>
+        </section>
     </div>
 
     <script src="script.js"></script>
