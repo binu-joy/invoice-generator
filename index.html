@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -142,9 +144,40 @@
                 <p><strong>Vehicle Reg:</strong> ${vehicleReg}</p>
             `;
 
-            alert("Customer details added successfully!");
+            generatePDF(customerName, customerPhone, vehicleReg);
         });
 
+        function generatePDF(name, phone, reg) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(14);
+            doc.text("PLANET GEARS LTD", 20, 20);
+            doc.setFontSize(10);
+            doc.text("Account No: 93401068 | Sort Code: 04-00-03", 20, 30);
+            doc.text("IBAN: GB58 MONZ 0400 0393 4010 68", 20, 35);
+
+            doc.setFontSize(12);
+            doc.text("Customer Details:", 20, 50);
+            doc.text(`Name: ${name}`, 20, 60);
+            doc.text(`Phone: ${phone}`, 20, 65);
+            doc.text(`Vehicle Reg: ${reg}`, 20, 70);
+
+            let invoiceData = items.map(item => [item.name, item.quantity, `£${item.price.toFixed(2)}`, `£${item.total.toFixed(2)}`]);
+
+            doc.autoTable({
+                startY: 80,
+                head: [["Item", "Quantity", "Unit Price (£)", "Total (£)"]],
+                body: invoiceData
+            });
+
+            let finalY = doc.autoTable.previous.finalY;
+            doc.text(`Subtotal: £${document.getElementById("subtotal").innerText}`, 20, finalY + 10);
+            doc.text(`Tax (5%): £${document.getElementById("tax").innerText}`, 20, finalY + 15);
+            doc.text(`Grand Total: £${document.getElementById("grandTotal").innerText}`, 20, finalY + 20);
+
+            doc.save("invoice.pdf");
+        }
     </script>
 
 </body>
