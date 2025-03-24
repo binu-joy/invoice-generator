@@ -134,7 +134,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="planet_gears_logo.png" alt="Planet Gears Logo" class="logo" id="headerLogo">
+        <img src="/images/planet_gears_logo.png" alt="Planet Gears Logo" class="logo" id="headerLogo">
         <h2>PLANET GEARS INVOICE GENERATOR</h2>
     </div>
 
@@ -333,33 +333,52 @@
         });
 
         function generatePDF(name, phone, reg, date) {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // Format the date
-            const formattedDate = new Date(date).toLocaleDateString('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            }).replace(/\//g, '/');
-            
-            // Generate invoice number
-            const invoiceNumber = `PG-${new Date().getFullYear()}-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Format the date
+    const formattedDate = new Date(date).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    }).replace(/\//g, '/');
+    
+    // Generate invoice number
+    const invoiceNumber = `PG-${new Date().getFullYear()}-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
 
-            // Header text
-            doc.setFontSize(14);
-            doc.text("PLANET GEARS LOGO", 20, 20);
+    // Add logo image
+    const logoImg = document.getElementById("headerLogo");
+    // Check if logo is loaded
+    if (logoImg.complete && logoImg.naturalHeight !== 0) {
+        try {
+            // Create a canvas element to convert the image to data URL
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = logoImg.naturalWidth;
+            canvas.height = logoImg.naturalHeight;
+            ctx.drawImage(logoImg, 0, 0);
             
-            doc.setFontSize(18);
-            doc.setTextColor(0, 100, 200);
-            doc.text("PLANET GEARS LTD - INVOICE", 70, 20);
-            
-            // Reset text color
-            doc.setTextColor(0, 0, 0);
-
-            // Customer details
+            // Get the data URL and add to PDF
+            const imgData = canvas.toDataURL('image/png');
+            doc.addImage(imgData, 'PNG', 15, 10, 30, 30); // Adjust size and position as needed
+        } catch (e) {
+            console.error("Error adding logo to PDF:", e);
+            // Fallback to text if image fails
             doc.setFontSize(14);
-            doc.text("Customer Details", 20, 40);
+            doc.text("PLANET GEARS", 20, 20);
+        }
+    } else {
+        // Fallback to text if image is not loaded
+        doc.setFontSize(14);
+        doc.text("PLANET GEARS", 20, 20);
+    }
+    
+    // Continue with the rest of your PDF generation code...
+    doc.setFontSize(18);
+    doc.setTextColor(0, 100, 200);
+    doc.text("PLANET GEARS LTD - INVOICE", 70, 20);
+    
+    // Rest of your code remains the same...
             
             doc.setFontSize(12);
             doc.text(`Name: ${name}`, 20, 50);
