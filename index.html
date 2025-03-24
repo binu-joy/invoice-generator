@@ -611,7 +611,7 @@
                     
                     // Get the data URL and add to PDF
                     const imgData = canvas.toDataURL('image/png');
-                    doc.addImage(imgData, 'PNG', 15, 10, 30, 30);
+                    doc.addImage(imgData, 'PNG', 15, 5, 30, 30);
                 } catch (e) {
                     console.error("Error adding logo to PDF:", e);
                     // Fallback to text if image fails
